@@ -17,9 +17,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 require('./lib/covers-custom.router')(app);
-
 restify.serve(router, Book);
-restify.serve(router, Cover);
 app.use(router);
 
 app.listen(config.port, () => {
