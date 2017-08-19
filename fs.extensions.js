@@ -18,6 +18,4 @@ module.exports = (function() {
 			}
 		});
 	};
-
-	return fs;
 })();

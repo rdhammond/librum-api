@@ -23,52 +23,47 @@ describe('jimp', function() {
 	});
 
 	describe('#getBufferAsync', function() {
+		var img;
+
+		beforeEach(async function() {
+			img = await jimp.readAsync(TEST_IMAGE);
+		});
+
 		it('should exist on object', function() {
-			return jimp.readAsync(TEST_IMAGE)
-			.then(img => {
-				should(img.getBufferAsync).be.ok();
-			});
+			console.log(img);
+			should(img.getBufferAsync).be.ok();
 		});
 
 		it('should get buffer', function() {
-			return jimp.readAsync(TEST_IMAGE)
-			.then(img => {
-				return img.getBufferAsync(jimp.AUTO)
-				.should.eventually.be.instanceof(Buffer);
-			});
+			return img.getBufferAsync(jimp.AUTO)
+			.should.eventually.be.instanceof(Buffer);
 		});
 
 		it('should handle errors gracefully', function() {
-			return jimp.readAsync(TEST_IMAGE)
-			.then(img => {
-				return img.getBufferAsync('jsdkfsjklf')
-				.should.be.rejected();
-			});
+			return img.getBufferAsync('jsdkfsjklf')
+			.should.be.rejected();
 		});
 	});
 
 	describe('#getBase64Async', function() {
+		var img;
+
+		beforeEach(async function() {
+			img = await jimp.readAsync(TEST_IMAGE);
+		});
+
 		it('should exist on object', function() {
-			return jimp.readAsync(TEST_IMAGE)
-			.then(img => {
-				should(img.getBase64Async).be.ok();
-			});
+			should(img.getBase64Async).be.ok();
 		});
 
 		it('should return valid uri', function() {
-			return jimp.readAsync(TEST_IMAGE)
-			.then(img => {
-				return img.getBase64Async(jimp.AUTO)
-				.should.eventually.match(/^data:image\/jpeg;base64,/);
-			});
+			return img.getBase64Async(jimp.AUTO)
+			.should.eventually.match(/^data:image\/jpeg;base64,/);
 		});
 
 		it('should handle errors gracefully', function() {
-			return jimp.readAsync(TEST_IMAGE)
-			.then(img => {
-				return img.getBase64Async('jsdkfljslkefj')
-				.should.be.rejected();
-			});
+			return img.getBase64Async('jsdkfljslkefj')
+			.should.be.rejected();
 		});
 	});
 });

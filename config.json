@@ -1,4 +1,0 @@
-{
-	"mongodb": "mongodb://localhost/librum",
-	"port": 3000
-}

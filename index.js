@@ -1,25 +1,17 @@
-const express = require('express'),
-	bodyParser = require('body-parser'),
-	methodOverride = require('method-override'),
+const restify = require('restify'),
 	mongoose = require('mongoose'),
-	restify = require('express-restify-mongoose'),
-	config = require('./config'),
-	Book = require('./lib/book.model'),
-	Cover = require('./lib/cover.model');
+	config = require('./config');
 
-require('./promise.extensions');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb, {useMongoClient: true});
 
-const app = express();
-const router = express.Router();
-app.use(bodyParser.json());
-app.use(methodOverride());
+const server = restify.createServer();
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
 
-require('./lib/covers-custom.router')(app);
-restify.serve(router, Book);
-app.use(router);
+require('./lib/book.router.v1')(server, config);
+require('./lib/cover.router.v1')(server, config);
 
-app.listen(config.port, () => {
-	console.log('Librum API server listening on port %d', config.port);
+server.listen(config.port, () => {
+	console.log(`Librum API listening on ${server.url}`);
 });
